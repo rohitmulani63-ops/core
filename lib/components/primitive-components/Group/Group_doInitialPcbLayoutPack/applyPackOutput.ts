@@ -211,6 +211,17 @@ export const applyPackOutput = (
           }
         }
       }
+      // Standalone primitives (e.g. <keepout />) have no source component,
+      // only the pcb_group_id of the group they were declared in
+      if ("pcb_group_id" in elm && elm.pcb_group_id) {
+        const elmPcbGroup = db.pcb_group.get(elm.pcb_group_id)
+        if (
+          elmPcbGroup?.source_group_id &&
+          isDescendantGroup(db, elmPcbGroup.source_group_id, componentId)
+        ) {
+          return true
+        }
+      }
       return false
     })
 

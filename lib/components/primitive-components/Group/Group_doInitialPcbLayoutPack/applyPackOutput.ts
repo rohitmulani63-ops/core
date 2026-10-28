@@ -211,9 +211,9 @@ export const applyPackOutput = (
           }
         }
       }
-      // Standalone primitives (e.g. <keepout />) have no source component,
-      // only the pcb_group_id of the group they were declared in
-      if ("pcb_group_id" in elm && elm.pcb_group_id) {
+      // A <keepout> declared directly in a group has no source component,
+      // only the pcb_group_id of that group
+      if (elm.type === "pcb_keepout" && elm.pcb_group_id) {
         const elmPcbGroup = db.pcb_group.get(elm.pcb_group_id)
         if (
           elmPcbGroup?.source_group_id &&
